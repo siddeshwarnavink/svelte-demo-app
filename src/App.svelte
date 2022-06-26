@@ -7,6 +7,18 @@
     { id: 1, title: "Post title", content: "Post content" },
     { id: 2, title: "Post title 2", content: "Post content 2" },
   ];
+
+  function editPostHandler(event) {
+    postList = postList.map(post => {
+      if(post.id !== event.detail.id) return post;
+
+      return {
+        ...post,
+        title: event.detail.title,
+        content: event.detail.content
+      }
+    })
+  }
 </script>
 
 <Layout>
@@ -14,7 +26,12 @@
 
   <PostList>
     {#each postList as postItem}
-      <PostItem title={postItem.title} content={postItem.content} />
+      <PostItem
+        id={postItem.id}
+        title={postItem.title}
+        content={postItem.content}
+        on:editPost={editPostHandler}
+      />
     {/each}
   </PostList>
 </Layout>

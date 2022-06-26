@@ -1,5 +1,9 @@
 <script>
+    import { createEventDispatcher } from "svelte";
+
     import updateArray from "../../util/updateArray";
+
+    const dispatch = createEventDispatcher();
 
     export let theme = "default";
     export let flat = false;
@@ -11,16 +15,20 @@
     }
 
     // Button theme
-    if ((theme === "default")) {
+    if (theme === "default") {
         cssClasses = updateArray(cssClasses, ["default"]);
     } else if (theme === "danger") {
         cssClasses = updateArray(cssClasses, ["danger"]);
     }
 
     $: className = cssClasses.join(" ");
+
+    function buttonClickedHandler() {
+        dispatch('click');
+    }
 </script>
 
-<button class={className}>
+<button class={className} on:click={buttonClickedHandler}>
     <slot />
 </button>
 

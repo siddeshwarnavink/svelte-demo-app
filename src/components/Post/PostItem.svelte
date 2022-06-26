@@ -1,18 +1,51 @@
 <script>
+    import { createEventDispatcher } from "svelte";
+
     import Button from "../UI/Button.svelte";
     import Card from "../UI/Card.svelte";
+    import PostEditor from "./PostEditor.svelte";
 
+    const dispatch = createEventDispatcher();
+
+    export let id;
     export let title;
     export let content;
+
+    let isEditing = false;
+
+    function toggleEditmodeHandler() {
+        isEditing = !isEditing;
+    }
+
+    function saveEditHandler(event) {
+        toggleEditmodeHandler();
+
+        dispatch("editPost", {
+            id,
+            title: event.detail.title,
+            content: event.detail.content,
+        });
+    }
 </script>
 
 <Card>
     <li class="post-item">
-        <h1>{title}</h1>
-        <p>{content}</p>
+        {#if !isEditing}
+            <h1>{title}</h1>
+            <p>{content}</p>
+        {:else}
+            <PostEditor
+                {title}
+                {content}
+                on:submit={saveEditHandler}
+                on:cancel={toggleEditmodeHandler}
+            />
+        {/if}
 
-        <Button>Edit</Button>
-        <Button flat theme="danger">Delete</Button>
+        {#if !isEditing}
+            <Button on:click={toggleEditmodeHandler}>Edit</Button>
+            <Button flat theme="danger">Delete</Button>
+        {/if}
     </li>
 </Card>
 
