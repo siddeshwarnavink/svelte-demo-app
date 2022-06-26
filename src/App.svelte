@@ -1,5 +1,7 @@
 <script>
   import { onMount } from "svelte";
+  import { fade, fly } from "svelte/transition";
+  import { flip } from "svelte/animate";
 
   import Layout from "./components/Layout/Layout.svelte";
   import PostList from "./components/Post/PostList.svelte";
@@ -8,29 +10,29 @@
   import Button from "./components/UI/Button.svelte";
   import PostEditor from "./components/Post/PostEditor.svelte";
   import updateArray from "./util/updateArray";
-import Spinner from "./components/UI/Spinner.svelte";
+  import Spinner from "./components/UI/Spinner.svelte";
 
-  let loading = false;
+  let postListLoading = false;
   let postList = [];
   let isEditModalOpen = false;
 
   onMount(async () => {
-    loading = true;
+    postListLoading = true;
     const response = await fetch("https://jsonplaceholder.typicode.com/posts");
     postList = await response.json().then((postList) =>
-      postList.map(({body, ...otherPostdata}) => ({
+      postList.slice(0, 10).map(({ body, ...otherPostdata }) => ({
         ...otherPostdata,
         content: body,
       }))
     );
-    loading = false;
+    postListLoading = false;
   });
 
   function toggleEditModalHandler() {
     isEditModalOpen = !isEditModalOpen;
   }
 
-  function editPostHandler(event) {
+  const editPostHandler = async (event) => {
     postList = postList.map((post) => {
       if (post.id !== event.detail.id) return post;
 
@@ -40,11 +42,34 @@ import Spinner from "./components/UI/Spinner.svelte";
         content: event.detail.content,
       };
     });
-  }
 
-  function deletePostHandler(event) {
+    await fetch(
+      `https://jsonplaceholder.typicode.com/posts/${event.detail.id}`,
+      {
+        method: "UPDATE",
+        body: JSON.stringify({
+          title: event.detail.title,
+          body: event.detail.content,
+        }),
+        headers: {
+          "Content-type": "application/json",
+          "Access-Control-Allow-Methods": "UPDATE",
+        },
+      }
+    );
+  };
+
+  const deletePostHandler = async (event) => {
     postList = postList.filter((post) => post.id !== event.detail);
-  }
+
+    await fetch(`https://jsonplaceholder.typicode.com/posts/${event.detail}`, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+        "Access-Control-Allow-Methods": "DELETE",
+      },
+    });
+  };
 
   function createPostHandler(event) {
     toggleEditModalHandler();
@@ -72,18 +97,20 @@ import Spinner from "./components/UI/Spinner.svelte";
     />
   </Modal>
 
-  {#if loading}
+  {#if postListLoading}
     <Spinner />
   {:else}
     <PostList>
-      {#each postList as postItem}
-        <PostItem
-          id={postItem.id}
-          title={postItem.title}
-          content={postItem.content}
-          on:editPost={editPostHandler}
-          on:deletePost={deletePostHandler}
-        />
+      {#each postList as postItem (postItem.id)}
+        <div animate:flip in:fly={{ y: 200, duration: 300 }} out:fade>
+          <PostItem
+            id={postItem.id}
+            title={postItem.title}
+            content={postItem.content}
+            on:editPost={editPostHandler}
+            on:deletePost={deletePostHandler}
+          />
+        </div>
       {/each}
     </PostList>
   {/if}

@@ -1,5 +1,4 @@
 <script>
-    import { fade, fly } from "svelte/transition";
     import { createEventDispatcher } from "svelte";
 
     import Button from "../UI/Button.svelte";
@@ -33,32 +32,30 @@
     }
 </script>
 
-<div in:fly={{ y: 200, duration: 300 }} out:fade>
-    <Card>
-        <li class="post-item" class:editing={isEditing}>
-            <div class="post-item-wrapper">
-                <div class="post-detail">
-                    <h2>{title}</h2>
-                    <p>{content}</p>
+<Card>
+    <li class="post-item" class:editing={isEditing}>
+        <div class="post-item-wrapper">
+            <div class="post-detail">
+                <h2>{title}</h2>
+                <p>{content}</p>
 
-                    <Button on:click={toggleEditmodeHandler}>Edit</Button>
-                    <Button flat theme="danger" on:click={deletePostHandler}>
-                        Delete
-                    </Button>
-                </div>
-
-                <div class="edit-post">
-                    <PostEditor
-                        {title}
-                        {content}
-                        on:submit={saveEditHandler}
-                        on:cancel={toggleEditmodeHandler}
-                    />
-                </div>
+                <Button on:click={toggleEditmodeHandler}>Edit</Button>
+                <Button flat theme="danger" on:click={deletePostHandler}>
+                    Delete
+                </Button>
             </div>
-        </li>
-    </Card>
-</div>
+
+            <div class="edit-post">
+                <PostEditor
+                    {title}
+                    {content}
+                    on:submit={saveEditHandler}
+                    on:cancel={toggleEditmodeHandler}
+                />
+            </div>
+        </div>
+    </li>
+</Card>
 
 <style>
     .post-item {
