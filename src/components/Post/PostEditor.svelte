@@ -36,7 +36,7 @@
     .form-field {
         display: flex;
         flex-direction: column;
-        width: 30vw;
+        width: 25vw;
         margin-bottom: 12px;
     }
 

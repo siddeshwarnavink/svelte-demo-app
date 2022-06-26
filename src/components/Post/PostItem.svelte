@@ -35,7 +35,7 @@
 <Card>
     <li class="post-item">
         {#if !isEditing}
-            <h1>{title}</h1>
+            <h2>{title}</h2>
             <p>{content}</p>
         {:else}
             <PostEditor

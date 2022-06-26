@@ -1,34 +1,25 @@
 <script>
     import { createEventDispatcher } from "svelte";
 
-    import updateArray from "../../util/updateArray";
-
     const dispatch = createEventDispatcher();
 
     export let theme = "default";
     export let flat = false;
-
-    let cssClasses = ["button"];
-
-    if (flat) {
-        cssClasses = updateArray(cssClasses, ["flat"]);
-    }
-
-    // Button theme
-    if (theme === "default") {
-        cssClasses = updateArray(cssClasses, ["default"]);
-    } else if (theme === "danger") {
-        cssClasses = updateArray(cssClasses, ["danger"]);
-    }
-
-    $: className = cssClasses.join(" ");
+    export let fab = false;
 
     function buttonClickedHandler() {
-        dispatch('click');
+        dispatch("click");
     }
 </script>
 
-<button class={className} on:click={buttonClickedHandler}>
+<button
+    class="button"
+    class:default={theme === "default"}
+    class:danger={theme === "danger"}
+    class:flat
+    class:fab
+    on:click={buttonClickedHandler}
+>
     <slot />
 </button>
 
@@ -64,5 +55,16 @@
 
     .button.flat.danger {
         color: rgb(218, 58, 58);
+    }
+
+    .button.fab {
+        border-radius: 100%;
+        font-weight: bold;
+        /* width: 5px; */
+        padding: 12px 21px;
+        font-size: 2em;
+        position: fixed;
+        bottom: 5vh;
+        right: 5vw;
     }
 </style>
