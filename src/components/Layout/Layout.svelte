@@ -10,6 +10,16 @@
 
 <style>
     .container {
-        padding: 10px 16px;
+        margin:auto;
+        max-width: 50vw;
+        margin-top: 12px;
+    }
+
+    @media (max-width: 700px) {
+        .container {
+            margin: 0;
+            padding: 10px 16px;
+            max-width: unset;
+        }
     }
 </style>

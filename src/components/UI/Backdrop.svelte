@@ -1,4 +1,14 @@
-<div class="backdrop" />
+<script>
+    import { createEventDispatcher } from "svelte";
+
+    const dispatch = createEventDispatcher();
+
+    function onClickHandler() {
+        dispatch('click');
+    }
+</script>
+
+<div class="backdrop" on:click={onClickHandler} />
 
 <style>
     .backdrop {

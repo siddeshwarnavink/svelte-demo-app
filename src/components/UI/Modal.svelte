@@ -15,7 +15,7 @@
 </script>
 
 {#if isOpen}
-    <Backdrop />
+    <Backdrop on:click={onCloseHandler} />
 
     <div class="modal" transition:fly={{ y: -200, duration: 500 }}>
         <div class="modal-container">
