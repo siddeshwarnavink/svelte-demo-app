@@ -28,7 +28,7 @@
         <textarea name="contentInput" bind:value={content} />
     </div>
 
-    <Button>Save</Button>
+    <Button buttonType="submit">Save</Button>
     <Button theme="danger" on:click={cancelEditHandler}>Cancel</Button>
 </form>
 
@@ -36,7 +36,7 @@
     .form-field {
         display: flex;
         flex-direction: column;
-        width: 25vw;
+        width: 28vw;
         margin-bottom: 12px;
     }
 

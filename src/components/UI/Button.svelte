@@ -6,6 +6,7 @@
     export let theme = "default";
     export let flat = false;
     export let fab = false;
+    export let buttonType = 'button';
 
     function buttonClickedHandler() {
         dispatch("click");
@@ -18,6 +19,7 @@
     class:danger={theme === "danger"}
     class:flat
     class:fab
+    type={buttonType}
     on:click={buttonClickedHandler}
 >
     <slot />

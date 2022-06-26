@@ -35,25 +35,27 @@
 
 <div in:fly={{ y: 200, duration: 300 }} out:fade>
     <Card>
-        <li class="post-item">
-            {#if !isEditing}
-                <h2>{title}</h2>
-                <p>{content}</p>
-            {:else}
-                <PostEditor
-                    {title}
-                    {content}
-                    on:submit={saveEditHandler}
-                    on:cancel={toggleEditmodeHandler}
-                />
-            {/if}
+        <li class="post-item" class:editing={isEditing}>
+            <div class="post-item-wrapper">
+                <div class="post-detail">
+                    <h2>{title}</h2>
+                    <p>{content}</p>
 
-            {#if !isEditing}
-                <Button on:click={toggleEditmodeHandler}>Edit</Button>
-                <Button flat theme="danger" on:click={deletePostHandler}>
-                    Delete
-                </Button>
-            {/if}
+                    <Button on:click={toggleEditmodeHandler}>Edit</Button>
+                    <Button flat theme="danger" on:click={deletePostHandler}>
+                        Delete
+                    </Button>
+                </div>
+
+                <div class="edit-post">
+                    <PostEditor
+                        {title}
+                        {content}
+                        on:submit={saveEditHandler}
+                        on:cancel={toggleEditmodeHandler}
+                    />
+                </div>
+            </div>
         </li>
     </Card>
 </div>
@@ -63,5 +65,38 @@
         padding: 10px 14px;
         border-radius: 12px;
         margin-bottom: 10px;
+        perspective: 1000px;
+        height: 12em;
+        transition: height 300ms ease;
+    }
+
+    .post-item-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+        width: 50vw;
+    }
+
+    .post-item.editing {
+        height: 20em;
+    }
+
+    .post-item.editing .post-item-wrapper {
+        transform: rotateY(180deg);
+    }
+
+    .post-item-wrapper .post-detail,
+    .post-item-wrapper .edit-post {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+
+    .edit-post {
+        transform: rotateY(180deg);
     }
 </style>
