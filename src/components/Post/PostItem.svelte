@@ -66,7 +66,7 @@
         border-radius: 12px;
         margin-bottom: 10px;
         perspective: 1000px;
-        height: 12em;
+        height: 15em;
         transition: height 300ms ease;
     }
 
@@ -94,6 +94,10 @@
         height: 100%;
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
+    }
+
+    .post-detail {
+        overflow: auto;
     }
 
     .edit-post {
