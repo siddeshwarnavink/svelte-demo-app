@@ -1,4 +1,5 @@
 <script>
+    import { fade, fly } from "svelte/transition";
     import { createEventDispatcher } from "svelte";
 
     import Button from "../UI/Button.svelte";
@@ -32,37 +33,35 @@
     }
 </script>
 
-<Card>
-    <li class="post-item">
-        {#if !isEditing}
-            <h2>{title}</h2>
-            <p>{content}</p>
-        {:else}
-            <PostEditor
-                {title}
-                {content}
-                on:submit={saveEditHandler}
-                on:cancel={toggleEditmodeHandler}
-            />
-        {/if}
+<div in:fly={{ y: 200, duration: 300 }} out:fade>
+    <Card>
+        <li class="post-item">
+            {#if !isEditing}
+                <h2>{title}</h2>
+                <p>{content}</p>
+            {:else}
+                <PostEditor
+                    {title}
+                    {content}
+                    on:submit={saveEditHandler}
+                    on:cancel={toggleEditmodeHandler}
+                />
+            {/if}
 
-        {#if !isEditing}
-            <Button on:click={toggleEditmodeHandler}>Edit</Button>
-            <Button flat theme="danger" on:click={deletePostHandler}>
-                Delete
-            </Button>
-        {/if}
-    </li>
-</Card>
+            {#if !isEditing}
+                <Button on:click={toggleEditmodeHandler}>Edit</Button>
+                <Button flat theme="danger" on:click={deletePostHandler}>
+                    Delete
+                </Button>
+            {/if}
+        </li>
+    </Card>
+</div>
 
 <style>
     .post-item {
         padding: 10px 14px;
         border-radius: 12px;
         margin-bottom: 10px;
-    }
-
-    .post-item h1 {
-        margin: 0;
     }
 </style>

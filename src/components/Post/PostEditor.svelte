@@ -50,6 +50,7 @@
         padding: 10px;
         outline: none;
         font-size: 16px;
+        font-family: 'Nunito', sans-serif;
     }
 
     .form-field textarea {
