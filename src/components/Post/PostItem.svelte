@@ -26,6 +26,10 @@
             content: event.detail.content,
         });
     }
+
+    function deletePostHandler() {
+        dispatch("deletePost", id);
+    }
 </script>
 
 <Card>
@@ -44,7 +48,9 @@
 
         {#if !isEditing}
             <Button on:click={toggleEditmodeHandler}>Edit</Button>
-            <Button flat theme="danger">Delete</Button>
+            <Button flat theme="danger" on:click={deletePostHandler}>
+                Delete
+            </Button>
         {/if}
     </li>
 </Card>

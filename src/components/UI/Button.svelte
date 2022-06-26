@@ -40,6 +40,7 @@
         font-size: 16px;
         font-weight: bold;
         border-radius: 12px;
+        outline: none;
     }
 
     .button.default {

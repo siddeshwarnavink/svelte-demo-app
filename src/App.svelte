@@ -19,6 +19,10 @@
       }
     })
   }
+
+  function deletePostHandler(event) {
+    postList = postList.filter(post => post.id !== event.detail)
+  }
 </script>
 
 <Layout>
@@ -31,6 +35,7 @@
         title={postItem.title}
         content={postItem.content}
         on:editPost={editPostHandler}
+        on:deletePost={deletePostHandler}
       />
     {/each}
   </PostList>
